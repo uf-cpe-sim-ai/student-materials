@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "StudenRobot": {
+      "commandName": "Executable",
+      "executablePath": "$(SolutionDir)\\env\\robocode.bat",
+      "workingDirectory": "$(SolutionDir)\\env"
+    }
+  }
+}

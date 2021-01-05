@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PathPlannerApp", "Framework\PathPlannerApp\PathPlannerApp.vcxproj", "{C85AA919-D385-4DCC-9D2A-F02FB795CBFD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TileSystem", "Framework\TileSystem\TileSystem.vcxproj", "{149A8182-9F2A-433F-A23A-B9D4B5A7A37B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PathSearch", "PathSearch\PathSearch.vcxproj", "{D06C10F4-4206-49AF-AF0B-39E9CABF720E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C85AA919-D385-4DCC-9D2A-F02FB795CBFD}.Debug|x64.ActiveCfg = Debug|x64
+		{C85AA919-D385-4DCC-9D2A-F02FB795CBFD}.Debug|x64.Build.0 = Debug|x64
+		{C85AA919-D385-4DCC-9D2A-F02FB795CBFD}.Release|x64.ActiveCfg = Release|x64
+		{C85AA919-D385-4DCC-9D2A-F02FB795CBFD}.Release|x64.Build.0 = Release|x64
+		{149A8182-9F2A-433F-A23A-B9D4B5A7A37B}.Debug|x64.ActiveCfg = Debug|x64
+		{149A8182-9F2A-433F-A23A-B9D4B5A7A37B}.Debug|x64.Build.0 = Debug|x64
+		{149A8182-9F2A-433F-A23A-B9D4B5A7A37B}.Release|x64.ActiveCfg = Release|x64
+		{149A8182-9F2A-433F-A23A-B9D4B5A7A37B}.Release|x64.Build.0 = Release|x64
+		{D06C10F4-4206-49AF-AF0B-39E9CABF720E}.Debug|x64.ActiveCfg = Debug|x64
+		{D06C10F4-4206-49AF-AF0B-39E9CABF720E}.Debug|x64.Build.0 = Debug|x64
+		{D06C10F4-4206-49AF-AF0B-39E9CABF720E}.Release|x64.ActiveCfg = Release|x64
+		{D06C10F4-4206-49AF-AF0B-39E9CABF720E}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {796B0E35-E725-427A-B31D-AF356FF33EBB}
+	EndGlobalSection
+EndGlobal

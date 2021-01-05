@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Project Source %28TODO%29">
+      <UniqueIdentifier>{46b3903b-8657-46b0-85e1-67705d28585e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Provided Source">
+      <UniqueIdentifier>{329c1df6-603f-4c8b-abc0-f0d7318563f7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Provided Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Data Structures\LinkedList.h">
+      <Filter>Project Source %28TODO%29</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,74 @@
+Testing enqueue...
+        pointerList: [ alpha ]
+        pointerList: [ alpha bravo ]
+        pointerList: [ alpha bravo charlie ]
+        pointerList: [ alpha bravo charlie charlie ]
+        pointerList: [ alpha bravo charlie charlie dog ]
+        pointerList: [ alpha bravo charlie charlie dog echo ]
+        pointerList: [ alpha bravo charlie charlie dog echo foxtrot ]
+        pointerList: [ alpha bravo charlie charlie dog echo foxtrot golf ]
+
+Testing dequeue...
+Removing the front element: alpha
+        pointerList: [ bravo charlie charlie dog echo foxtrot golf ]
+Removing the front element: bravo
+        pointerList: [ charlie charlie dog echo foxtrot golf ]
+Removing the front element: charlie
+        pointerList: [ charlie dog echo foxtrot golf ]
+Removing the front element: charlie
+        pointerList: [ dog echo foxtrot golf ]
+Removing the front element: dog
+        pointerList: [ echo foxtrot golf ]
+Removing the front element: echo
+        pointerList: [ foxtrot golf ]
+Removing the front element: foxtrot
+        pointerList: [ golf ]
+Removing the front element: golf
+        pointerList: [ ]
+
+Removing the only element from valueList: golf
+        valueList: [ ]
+
+Testing search for: alpha
+        valueList: [ ]
+
+Testing pop...
+Rebuilding list.
+        pointerList: [ alpha bravo charlie charlie dog echo foxtrot golf ]
+Removing the back element: golf
+        pointerList: [ alpha bravo charlie charlie dog echo foxtrot ]
+Removing the back element: foxtrot
+        pointerList: [ alpha bravo charlie charlie dog echo ]
+Removing the back element: echo
+        pointerList: [ alpha bravo charlie charlie dog ]
+Removing the back element: dog
+        pointerList: [ alpha bravo charlie charlie ]
+Removing the back element: charlie
+        pointerList: [ alpha bravo charlie ]
+Removing the back element: charlie
+        pointerList: [ alpha bravo ]
+Removing the back element: bravo
+        pointerList: [ alpha ]
+Removing the back element: alpha
+        pointerList: [ ]
+
+Testing enqueue after removal...
+        pointerList: [ bravo charlie charlie dog echo foxtrot golf ]
+
+Testing unsuccessful search and remove: ELEMENT NOT FOUND.
+
+Testing search and remove: bravo
+        pointerList: [ charlie charlie dog echo foxtrot golf ]
+Testing search and remove: dog
+        pointerList: [ charlie charlie echo foxtrot golf ]
+Testing search and remove: golf
+        pointerList: [ charlie charlie echo foxtrot ]
+
+Removing all elements from pointerList...
+        pointerList: [ ]
+
+Adding elements to test descructor...
+        pointerList: [ hotel india juliet ]
+        valueList: [ charlie charlie echo foxtrot ]
+
+Press ENTER to continue...
