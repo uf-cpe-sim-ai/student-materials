@@ -4,6 +4,7 @@
 
 #include <istream>
 #include "../TileSystem/TileMap.h"
+#include "PathPlannerLab.h"
 
 //! \brief Loads a tile map from the specified input stream.
 template <typename CharT, typename CharTraits>
@@ -37,6 +38,22 @@ bool load(std::basic_istream<CharT,CharTraits>& input_stream, ufl_cap4053::TileM
 					return false;
 				}
 			}
+		}
+
+		int start_row;
+		int start_column;
+
+		if (!input_stream.eof() && (input_stream >> start_row) && (input_stream >> start_column))
+		{
+			PathPlannerGlobals::getInstance()->setStartTile(tile_map.getTile(start_row, start_column));
+		}
+
+		int goal_row;
+		int goal_column;
+
+		if (!input_stream.eof() && (input_stream >> goal_row) && (input_stream >> goal_column))
+		{
+			PathPlannerGlobals::getInstance()->setGoalTile(tile_map.getTile(goal_row, goal_column));
 		}
 
 		tile_map.computeWeightSumSquared();

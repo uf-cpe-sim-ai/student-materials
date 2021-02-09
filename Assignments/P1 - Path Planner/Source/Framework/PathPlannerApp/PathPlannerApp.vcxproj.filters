@@ -7,9 +7,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resource\goal.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Resource\open.ico">
       <Filter>Resource Files</Filter>
     </Image>
@@ -25,13 +22,7 @@
     <Image Include="Resource\play_pause.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resource\start.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Resource\stop.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resource\small-old.ico">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Resource\app.ico">

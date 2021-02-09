@@ -17,8 +17,6 @@
 #define IDR_MAINFRAME                   128
 #define IDI_OPEN                        129
 #define IDI_STOP                        130
-#define IDI_START                       131
-#define IDI_GOAL                        132
 #define IDI_PAUSE                       133
 #define IDI_PLAY                        134
 #define IDI_PLAY_PAUSE                  135

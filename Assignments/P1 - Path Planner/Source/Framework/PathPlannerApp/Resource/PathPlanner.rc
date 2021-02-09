@@ -34,10 +34,6 @@ IDI_OPEN                ICON                    "open.ico"
 
 IDI_STOP                ICON                    "stop.ico"
 
-IDI_START               ICON                    "start.ico"
-
-IDI_GOAL                ICON                    "goal.ico"
-
 IDI_PAUSE               ICON                    "pause.ico"
 
 IDI_PLAY                ICON                    "play.ico"

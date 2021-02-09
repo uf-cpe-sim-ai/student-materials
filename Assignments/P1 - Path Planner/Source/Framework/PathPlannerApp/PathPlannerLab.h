@@ -67,6 +67,10 @@ struct PathPlannerGlobals
 {
 	static const UINT SHOW_SEARCH_RUNNING = 1;
 
+	// friends
+	template <typename CharT, typename CharTraits> friend bool load(std::basic_istream<CharT, CharTraits>& input_stream, ufl_cap4053::TileMap& tile_map);
+	friend class GroundUpPathPlanner;
+
 private:
 	// singleton instance
 	static PathPlannerGlobals* instance_;
@@ -74,12 +78,23 @@ private:
 	// variables
 	double min_radius_;
 	UINT   flags_;
+	ufl_cap4053::Tile* start_tile_ = nullptr;
+	ufl_cap4053::Tile* goal_tile_ = nullptr;
 
 	// singleton members
 	PathPlannerGlobals();
 	PathPlannerGlobals(PathPlannerGlobals const&);
 	PathPlannerGlobals& operator=(PathPlannerGlobals const&);
 	~PathPlannerGlobals();
+
+	inline void setStartTile(ufl_cap4053::Tile* tile)
+	{
+		start_tile_ = tile;
+	}
+	inline void setGoalTile(ufl_cap4053::Tile* tile)
+	{
+		goal_tile_ = tile;
+	}
 
 public:
 	static PathPlannerGlobals* getInstance();
@@ -109,6 +124,15 @@ public:
 	inline void turnOff(UINT flag)
 	{
 		flags_ &= ~flag;
+	}
+
+	inline ufl_cap4053::Tile* getStartTile()
+	{
+		return start_tile_;
+	}
+	inline ufl_cap4053::Tile* getGoalTile()
+	{
+		return goal_tile_;
 	}
 };
 

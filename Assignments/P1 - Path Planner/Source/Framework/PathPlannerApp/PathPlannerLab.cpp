@@ -86,11 +86,7 @@ void setBounds(double const h_radius, int const row_count, int const column_coun
 	}
 }
 
-void drawGrid(TileMap const& tile_map, POINT const& offset, int grid_width, int grid_height,
-              HDC device_context_handle)
-{
-	double const radius = tile_map.getTileRadius();
-
+POINT* constructHexagon(double const radius, POINT const& offset) {
 	POINT hexagon[6];
 
 	hexagon[0].x = hexagon[3].x = 0;
@@ -122,6 +118,35 @@ void drawGrid(TileMap const& tile_map, POINT const& offset, int grid_width, int 
 		hexagon[i].y += offset.y;
 	}
 
+	return hexagon;
+}
+
+void drawTileHighlight(Tile const* tile, POINT const& offset, double const radius, HBRUSH brush_handle, 
+					   HDC device_context_handle, double const radius_multiplier = 1) {
+
+	int x_offset = static_cast<int>(tile->getXCoordinate());
+	int y_offset = static_cast<int>(tile->getYCoordinate());
+
+	// Note: radius_multiplier can be changed, but has a default value. If it is increased, the highlight will be larger.
+	// This is a quickly derived equation for radius growth that maintains as much clarity as possible for large maps.
+	// Default = 30/radius + 1.05*radius
+	double const calculated_new_radius = ((radius_multiplier * 30) / radius) + ((radius_multiplier * 1.05) * radius);
+
+	POINT* end_point_hexagon = constructHexagon(calculated_new_radius, offset);
+	HRGN end_point_hex_region = CreatePolygonRgn(end_point_hexagon, 6, WINDING);
+
+	if (OffsetRgn(end_point_hex_region, x_offset, y_offset) != ERROR) {
+
+		FillRgn(device_context_handle, end_point_hex_region, brush_handle);
+		OffsetRgn(end_point_hex_region, -x_offset, -y_offset);
+	}
+}
+
+void drawGrid(TileMap const& tile_map, POINT const& offset, int grid_width, int grid_height, HDC device_context_handle)
+{
+	double const radius = tile_map.getTileRadius();
+	POINT* hexagon = constructHexagon(radius, offset);
+
 	if (HRGN hex_region = CreatePolygonRgn(hexagon, 6, WINDING))
 	{
 		int row_start;
@@ -134,6 +159,9 @@ void drawGrid(TileMap const& tile_map, POINT const& offset, int grid_width, int 
 
 		HBRUSH brush_handle[16];
 		HBRUSH black_brush_handle = reinterpret_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
+		HBRUSH red_brush_handle = CreateSolidBrush(RGB(255, 0, 0));
+		HBRUSH green_brush_handle = CreateSolidBrush(RGB(0, 255, 0));
+
 		unsigned char tile_weight;
 
 		for (unsigned char i = 0; i < 16; ++i)
@@ -143,10 +171,21 @@ void drawGrid(TileMap const& tile_map, POINT const& offset, int grid_width, int 
 		}
 
 		Tile const* tile;
+		Tile const* start_tile = PathPlannerGlobals::getInstance()->getStartTile();
+		Tile const* goal_tile = PathPlannerGlobals::getInstance()->getGoalTile();
 		int x_offset;
 		int y_offset;
 		int row;
 		int column;
+
+		// Draw a red highlight around the start tile (if it exists)
+		if (start_tile) {
+			drawTileHighlight(start_tile, offset, radius, red_brush_handle, device_context_handle);
+		}
+		// Draw a green highlight around the goal tile (if it exists)
+		if (goal_tile) {
+			drawTileHighlight(goal_tile, offset, radius, green_brush_handle, device_context_handle);
+		}
 
 		for (row = row_start; row < row_end; ++row)
 		{
@@ -164,7 +203,6 @@ void drawGrid(TileMap const& tile_map, POINT const& offset, int grid_width, int 
 						{
 							tile_weight = 15;
 						}
-
 						FillRgn(device_context_handle, hex_region, brush_handle[tile_weight]);
 					}
 					else
@@ -183,25 +221,27 @@ void drawGrid(TileMap const& tile_map, POINT const& offset, int grid_width, int 
 		}
 
 		DeleteObject(hex_region);
+		DeleteObject(black_brush_handle);
+		DeleteObject(red_brush_handle);
+		DeleteObject(green_brush_handle);
 	}
 }
 
-void drawEndpoint(int center_x, int center_y, int length, HBRUSH brush_handle,
+void drawEndpoint(int center_x, int center_y, int half_length, HBRUSH brush_handle,
                   HDC device_context_handle)
 {
-	int x2 = length >> 1;
-	int x1 = center_x - x2;
-	int y1 = center_y - length;
+	int x1 = center_x - half_length / 2;
+	int x2 = center_x + half_length / 2;
+	int y1 = center_y - half_length;
 	RECT rectangle;
 
-	x2 += center_x;
 	rectangle.left = x1 + 1;
 	rectangle.right = x2;
 	rectangle.top = y1 + 1;
 	rectangle.bottom = center_y;
 	FillRect(device_context_handle, &rectangle, brush_handle);
 
-	if (MoveToEx(device_context_handle, x1, center_y + length, 0))
+	if (MoveToEx(device_context_handle, x1, center_y + half_length, 0))
 	{
 		LineTo(device_context_handle, x1, y1);
 		LineTo(device_context_handle, x2, y1);
@@ -320,10 +360,11 @@ bool GroundUpPathPlanner::read(basic_ifstream<TCHAR>& input_stream)
 	                               goal_column_ = DEFAULT_GOAL_COL);
 
 #else
-
-	start_tile_ = tile_map_.getTile(start_row_ = 0, start_column_ = 0);
-	goal_tile_ = tile_map_.getTile(goal_row_ = tile_map_.getRowCount() - 1,
-	                               goal_column_ = tile_map_.getColumnCount() - 1);
+	// These values dictate the default start and goal tile locations
+	start_tile_ = tile_map_.getTile(start_row_ = PathPlannerGlobals::getInstance()->getStartTile()->getRow(), 
+								   start_column_ = PathPlannerGlobals::getInstance()->getStartTile()->getColumn());
+	goal_tile_ = tile_map_.getTile(goal_row_ = PathPlannerGlobals::getInstance()->getGoalTile()->getRow(),
+	                               goal_column_ = PathPlannerGlobals::getInstance()->getGoalTile()->getColumn());
 
 #endif
 	return true;
@@ -474,6 +515,7 @@ bool GroundUpPathPlanner::updateInput(NMLVDISPINFO const* list_view_display_info
 				}
 
 				start_tile_ = tile_map_.getTile(start_row_, start_column_);
+				PathPlannerGlobals::getInstance()->setStartTile(tile_map_.getTile(start_row_, start_column_));
 				return true;
 			}
 
@@ -503,6 +545,7 @@ bool GroundUpPathPlanner::updateInput(NMLVDISPINFO const* list_view_display_info
 				}
 
 				start_tile_ = tile_map_.getTile(start_row_, start_column_);
+				PathPlannerGlobals::getInstance()->setStartTile(tile_map_.getTile(start_row_, start_column_));
 				return true;
 			}
 
@@ -532,6 +575,7 @@ bool GroundUpPathPlanner::updateInput(NMLVDISPINFO const* list_view_display_info
 				}
 
 				goal_tile_ = tile_map_.getTile(goal_row_, goal_column_);
+				PathPlannerGlobals::getInstance()->setGoalTile(tile_map_.getTile(goal_row_, goal_column_));
 				return true;
 			}
 
@@ -561,6 +605,7 @@ bool GroundUpPathPlanner::updateInput(NMLVDISPINFO const* list_view_display_info
 				}
 
 				goal_tile_ = tile_map_.getTile(goal_row_, goal_column_);
+				PathPlannerGlobals::getInstance()->setGoalTile(tile_map_.getTile(goal_row_, goal_column_));
 				return true;
 			}
 
@@ -823,11 +868,6 @@ void GroundUpPathPlanner::displaySearchProgress(POINT const& offset, int width, 
 	HBRUSH start_brush_handle = CreateSolidBrush(RGB(255, 0, 0));
 	HBRUSH goal_brush_handle = CreateSolidBrush(RGB(0, 255, 0));
 
-	displayEndpoints(start_tile_, goal_tile_, offset, large_node_radius,
-	                 start_brush_handle, goal_brush_handle, device_context_handle);
-	DeleteObject(goal_brush_handle);
-	DeleteObject(start_brush_handle);
-
 	Tile const* tile;
 	int x, y, column;
 
@@ -914,6 +954,7 @@ void GroundUpPathPlanner::displaySearchProgress(POINT const& offset, int width, 
 			SelectObject(device_context_handle, old_brush_handle);
 			DeleteObject(path_brush_handle);
 		}
+
 		/*}
 		else
 		{
@@ -956,6 +997,11 @@ void GroundUpPathPlanner::displaySearchProgress(POINT const& offset, int width, 
 			}
 		}
 	}
+
+	displayEndpoints(start_tile_, goal_tile_, offset, large_node_radius,
+		start_brush_handle, goal_brush_handle, device_context_handle);
+	DeleteObject(goal_brush_handle);
+	DeleteObject(start_brush_handle);
 }
 
 void GroundUpPathPlanner::beginRedrawSearchProgress(POINT const& offset, int width, int height,
@@ -1590,69 +1636,11 @@ BOOL PathPlannerLab::initializeApplication(HINSTANCE application_handle, int n_c
 		}
 
 		if (
-			start_waypoint_button_handle_ = CreateWindow(
-			    _T("BUTTON")
-			  , start_waypoint_button_text_
-			  , WS_TABSTOP | WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_ICON
-			  , height_0 << 1
-			  , y_offset_1
-			  , height_0
-			  , height_0
-			  , window_handle_
-			  , reinterpret_cast<HMENU>(IDM_PATHPLANNER_SET_START)
-			  , application_handle
-			  , 0
-			)
-		)
-		{
-			icon_handle = LoadIcon(application_handle, MAKEINTRESOURCE(IDI_START));
-			SendMessage(start_waypoint_button_handle_, BM_SETIMAGE, IMAGE_ICON,
-			            reinterpret_cast<LPARAM>(icon_handle));
-			EnableWindow(start_waypoint_button_handle_, current_planner_->shouldEnableSetStart());
-		}
-		else
-		{
-			MessageBox(window_handle_, _T("Creation Failed"), _T("start_waypoint_button_handle_"),
-			           MB_OK);
-			DestroyWindow(window_handle_);
-			return FALSE;
-		}
-
-		if (
-			goal_waypoint_button_handle_ = CreateWindow(
-			    _T("BUTTON")
-			  , goal_waypoint_button_text_
-			  , WS_TABSTOP | WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_ICON
-			  , height_0 * 3
-			  , y_offset_1
-			  , height_0
-			  , height_0
-			  , window_handle_
-			  , reinterpret_cast<HMENU>(IDM_PATHPLANNER_SET_GOAL)
-			  , application_handle
-			  , 0
-			)
-		)
-		{
-			icon_handle = LoadIcon(application_handle, MAKEINTRESOURCE(IDI_GOAL));
-			SendMessage(goal_waypoint_button_handle_, BM_SETIMAGE, IMAGE_ICON,
-			            reinterpret_cast<LPARAM>(icon_handle));
-			EnableWindow(goal_waypoint_button_handle_, current_planner_->shouldEnableSetGoal());
-		}
-		else
-		{
-			MessageBox(window_handle_, _T("Creation Failed"), _T("goal_waypoint_button_handle_"),
-			           MB_OK);
-			DestroyWindow(window_handle_);
-			return FALSE;
-		}
-
-		if (
 			run_button_handle_ = CreateWindow(
 			    _T("BUTTON")
 			  , run_button_text_
 			  , WS_TABSTOP | WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_ICON
-			  , height_0 << 2
+			  , height_0 << 1
 			  , y_offset_1
 			  , height_0
 			  , height_0
@@ -1681,7 +1669,7 @@ BOOL PathPlannerLab::initializeApplication(HINSTANCE application_handle, int n_c
 			    _T("BUTTON")
 			  , step_button_text_
 			  , WS_TABSTOP | WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_ICON
-			  , height_0 * 5
+			  , height_0 * 3
 			  , y_offset_1
 			  , height_0
 			  , height_0
@@ -1709,7 +1697,7 @@ BOOL PathPlannerLab::initializeApplication(HINSTANCE application_handle, int n_c
 			    _T("BUTTON")
 			  , time_run_button_text_
 			  , WS_TABSTOP | WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_ICON
-			  , height_0 * 6
+			  , height_0 << 2
 			  , y_offset_1
 			  , height_0
 			  , height_0

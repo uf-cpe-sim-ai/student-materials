@@ -79,14 +79,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Image Include="Resource\app.ico" />
-    <Image Include="Resource\goal.ico" />
     <Image Include="Resource\open.ico" />
     <Image Include="Resource\pause.ico" />
     <Image Include="Resource\play.ico" />
     <Image Include="Resource\play_end.ico" />
     <Image Include="Resource\play_pause.ico" />
-    <Image Include="Resource\small-old.ico" />
-    <Image Include="Resource\start.ico" />
     <Image Include="Resource\stop.ico" />
   </ItemGroup>
   <ItemGroup>
