@@ -45,7 +45,7 @@ namespace ufl_cap4053 { namespace fundamentals {
 	const char* Knowledge::getStateAsString(int _x, int _y)
 	{
 		if (x == _x && y == _y)
-			return u8" ☺ ";
+			return (const char *) u8" ☺ ";
 
 		switch (modelWorld[_x][_y])
 		{
@@ -54,15 +54,15 @@ namespace ufl_cap4053 { namespace fundamentals {
 		case CLEAR:
 			return "   ";
 		case DEFINITE_WUMPUS:
-			return u8" Ω ";
+			return (const char*) u8" Ω ";
 		case DEFINITE_PIT:
-			return u8" ○ ";
+			return (const char*) u8" ○ ";
 		case POSSIBLE_WUMPUS:
-			return u8"?Ω?";
+			return (const char*) u8"?Ω?";
 		case POSSIBLE_PIT:
-			return u8"?○?";
+			return (const char*) u8"?○?";
 		case POSSIBLE_W_P:
-			return u8"Ω○?";
+			return (const char*) u8"Ω○?";
 		default:
 			return "WAT";
 		}
@@ -70,8 +70,8 @@ namespace ufl_cap4053 { namespace fundamentals {
 
 	const char* Knowledge::getStimuliAsString(int _x, int _y)
 	{
-		static const char stimStrings[][10] = { u8"   ", u8"‼  ", u8" ~ ", u8"‼~ ", u8"  ☼", u8"‼ ☼", u8" ~☼", u8"‼~☼" };
-		return stimStrings[(stimuli[_x][_y] & (STENCH | BREEZE | GOLD))];
+		static const char8_t stimStrings[][10] = { u8"   ", u8"‼  ", u8" ~ ", u8"‼~ ", u8"  ☼", u8"‼ ☼", u8" ~☼", u8"‼~☼" };
+		return (const char *) stimStrings[(stimuli[_x][_y] & (STENCH | BREEZE | GOLD))];
 	}
 
 	// Instantiate an agent.
