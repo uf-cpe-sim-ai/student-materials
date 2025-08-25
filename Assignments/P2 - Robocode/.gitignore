@@ -1,0 +1,6 @@
+Source/env/config/
+Source/env/robots/.data/
+**/robocode.xml
+**/robocode.dll
+**/robot.database
+Source/env/robots/MyTeam.dll

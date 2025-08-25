@@ -1,0 +1,3 @@
+A) In your new group, listen to each member describe the simulation and algorithm from their previous group's discussion and describe your own. Are some approaches more sound than others? What optimizations would your new group integrate into the problems you tackled before?
+
+B) Open the "PATHDEMO" executable. Spend some time (5 minutes or so) investigating the different algorithms in different contexts. Then, as a group, identify and discuss any interesting and/or surprising edge cases you found in the different routines. If you had to select one algorithm for the pathfinding solution to the simulation above, which would you use, based on what you've learned in class, your investigation of the PATHDEMO, and your development experiences?

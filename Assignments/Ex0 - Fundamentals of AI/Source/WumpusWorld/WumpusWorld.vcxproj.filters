@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Provided Source">
+      <UniqueIdentifier>{c6c7e691-15e9-4761-8747-a2edba81607a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Provided Source\BehaviorTree">
+      <UniqueIdentifier>{541cda2e-a6f4-4f5b-ac6b-5f5c8f8c6dd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Provided Source\Game">
+      <UniqueIdentifier>{bb137a54-cd39-40e6-a1e0-2c153a1fff9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project Source %28TODO%29">
+      <UniqueIdentifier>{b02d0ba5-1ac4-47e6-a244-8d6a4301d5c6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Game\Agent.cpp">
+      <Filter>Provided Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Game.cpp">
+      <Filter>Provided Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\World.cpp">
+      <Filter>Provided Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Behaviors.cpp">
+      <Filter>Provided Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorTree\Behavior.cpp">
+      <Filter>Provided Source\BehaviorTree</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game\Agent.h">
+      <Filter>Provided Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\definitions.h">
+      <Filter>Provided Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Game.h">
+      <Filter>Provided Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\World.h">
+      <Filter>Provided Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Behaviors.h">
+      <Filter>Provided Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorTree\Behavior.h">
+      <Filter>Provided Source\BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Data Structures\TreeNode.h">
+      <Filter>Project Source %28TODO%29</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

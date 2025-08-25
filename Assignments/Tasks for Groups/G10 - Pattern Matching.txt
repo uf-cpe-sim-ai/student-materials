@@ -1,0 +1,3 @@
+We've discussed two pattern matching topics in class - specifically Neural Networks and Influence Maps. These approaches allow us to estimate features about an entity, space, or other context through mathematical modelling.
+
+Consider possible applications to Robocode. Are there ways that such pattern matching techniques could be used for your team strategy in Robocode? How about individual strategies? If there are approaches you think might work, which ones, and why do you think they would work? If you don't think such approaches would work, why not? (What about pattern matching makes it a poor match for your team / individual strategy, or Robocode in general?)

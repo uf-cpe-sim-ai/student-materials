@@ -1,0 +1,17 @@
+A) Explore the following systems. Let them run for a bit:
+
+https://rednuht.org/genetic_cars_2/
+https://rednuht.org/genetic_walkers/
+https://rednuht.org/geneticat/
+https://rednuht.org/genetic_brick_cars/
+https://chriscummins.cc/s/genetics/
+
+Briefly discuss these with your group members. Anything interesting?
+
+B) Design a simulation or game mechanic that could use a GA. Identify…
+
+1) What would the solutions - i.e., chromosomes - be?
+2) How would the genes be defined (sub-parts of the chromosomes)?
+3) What would the fitness function measure? (Sketch it out.)
+4) What selection / mutation / recombination processes is best, & why?
+

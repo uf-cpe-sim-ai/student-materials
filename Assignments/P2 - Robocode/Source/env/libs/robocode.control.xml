@@ -1,0 +1,1513 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>robocode.control</name>
+    </assembly>
+    <members>
+        <member name="T:Robocode.Control.Events.BattleCompletedEvent">
+            <summary>
+            Contains information about a <see cref="E:Robocode.Control.IRobocodeEngine.BattleCompleted"/> event that is
+            triggered when a battle has completed successfully where results are available.
+            This event will not occur if the battle is terminated or aborted by the user before the
+            battle is completed.
+            </summary>
+            <seealso cref="T:Robocode.Control.Events.BattleStartedEvent"/>
+            <seealso cref="T:Robocode.Control.Events.BattleFinishedEvent"/>
+        </member>
+        <member name="T:Robocode.Control.Events.BattleEvent">
+            <summary>
+            This is the base class of all battle events.
+            </summary>
+        </member>
+        <member name="P:Robocode.Control.Events.BattleCompletedEvent.BattleRules">
+            <summary>
+            Contains the rules used in the battle.
+            </summary>
+            <value>
+            The rules used in the battle.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Events.BattleCompletedEvent.SortedResults">
+            <summary>
+            Contains the battle results sorted on score.
+            Note that the robot index cannot be used to determine the score with the sorted results.
+            </summary>
+            <value>
+            An array of sorted BattleResults, where the results with the bigger score are placed first in the list.
+            </value>
+            <seealso cref="P:Robocode.Control.Events.BattleCompletedEvent.IndexedResults"/>
+        </member>
+        <member name="P:Robocode.Control.Events.BattleCompletedEvent.IndexedResults">
+            <summary>
+            Contains the battle results that can be used to determine the score for the individual robot based
+            on the robot index.
+            </summary>
+            <value>
+            An array of indexed BattleResults, where each index matches an index of a specific robot.
+            </value>
+            <seealso cref="P:Robocode.Control.Events.BattleCompletedEvent.SortedResults"/>
+        </member>
+        <member name="T:Robocode.Control.Events.BattleErrorEvent">
+            <summary>
+            Contains information about a <see cref="E:Robocode.Control.IRobocodeEngine.BattleError"/> event that is
+            triggered when an error message is sent from the game in the during the battle.
+            </summary>
+            <seealso cref="T:Robocode.Control.Events.BattleMessageEvent"/>
+        </member>
+        <member name="P:Robocode.Control.Events.BattleErrorEvent.Error">
+            <summary>
+            Contains the error message.
+            </summary>
+            <value>
+            The error message that was sent from the game during the battle.
+            </value>
+        </member>
+        <member name="T:Robocode.Control.Events.BattleFinishedEvent">
+            <summary>
+            Contains information about a <see cref="E:Robocode.Control.IRobocodeEngine.BattleFinished"/> event that is
+            triggered when the battle is finished. This event is always sent as the last battle event,
+            both when the battle is completed successfully, terminated due to an error, or aborted by the user.
+            Hence, this events is well-suited for cleanup after the battle. 
+            </summary>
+            <seealso cref="T:Robocode.Control.Events.BattleStartedEvent"/>
+            <seealso cref="T:Robocode.Control.Events.BattleCompletedEvent"/>
+        </member>
+        <member name="P:Robocode.Control.Events.BattleFinishedEvent.IsAborted">
+            <summary>
+            Flag specifying if the battle was aborted.
+            </summary>
+            <value>
+            <em>true</em> if the battle was aborted; <em>false</em> otherwise.
+            </value>
+        </member>
+        <member name="T:Robocode.Control.Events.BattleMessageEvent">
+            <summary>
+            Contains information about a <see cref="E:Robocode.Control.IRobocodeEngine.BattleMessage"/> event that is
+            triggered when an informal message is sent from the game in the during the battle.
+            </summary>
+            <seealso cref="!:BattleMessageError"/>
+        </member>
+        <member name="P:Robocode.Control.Events.BattleMessageEvent.Message">
+            <summary>
+            Contains the informal message.
+            </summary>
+            <value>
+            The informal message that was sent from the game during the battle.
+            </value>
+        </member>
+        <member name="T:Robocode.Control.Events.BattlePausedEvent">
+            <summary>
+            Contains information about a <see cref="E:Robocode.Control.IRobocodeEngine.BattlePaused"/> event that is
+            triggered when a battle has been paused.
+            </summary>
+            <seealso cref="T:Robocode.Control.Events.BattleResumedEvent"/>
+        </member>
+        <member name="T:Robocode.Control.Events.BattleResumedEvent">
+            <summary>
+            Contains information about a <see cref="E:Robocode.Control.IRobocodeEngine.BattleResumed"/> event that is
+            triggered when a battle has been resumed (after having been paused).
+            </summary>
+            <seealso cref="T:Robocode.Control.Events.BattlePausedEvent"/>
+        </member>
+        <member name="T:Robocode.Control.Events.BattleStartedEvent">
+            <summary>
+            Contains information about a <see cref="E:Robocode.Control.IRobocodeEngine.BattleStarted"/> event that is
+            triggered when a new battle is started. 
+            </summary>
+            <seealso cref="T:Robocode.Control.Events.BattleCompletedEvent"/>
+            <seealso cref="T:Robocode.Control.Events.BattleFinishedEvent"/>
+        </member>
+        <member name="P:Robocode.Control.Events.BattleStartedEvent.BattleRules">
+            <summary>
+            Contains the rules that will be used in the battle.
+            </summary>
+            <value>
+            The rules that will be used in the battle.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Events.BattleStartedEvent.RobotsCount">
+            <summary>
+            Contains the number of robots participating in the battle.
+            </summary>
+            <value>
+            The number of robots participating in the battle.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Events.BattleStartedEvent.IsReplay">
+            <summary>
+            Flag specifying if this battle is a replay or a new battle.
+            </summary>
+            <value>
+            <em>true</em> if the battle is a replay; <em>false</em> otherwise.
+            </value>
+        </member>
+        <member name="T:Robocode.Control.Events.RoundEndedEvent">
+            <summary>
+            Contains information about a <see cref="E:Robocode.Control.IRobocodeEngine.RoundEnded"/> event that is
+            triggered when the current round of a battle has ended.
+            </summary>
+            <seealso cref="T:Robocode.Control.Events.RoundStartedEvent"/>
+        </member>
+        <member name="P:Robocode.Control.Events.RoundEndedEvent.Round">
+            <summary>
+            Contains the round number that has ended.
+            </summary>
+            <value>
+            The round number that has ended, which is zero indexed.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Events.RoundEndedEvent.Turns">
+            <summary>
+            Contains the number of turns that this round reached.
+            </summary>
+            <value>
+            The number of turns that this round reached.
+            </value>
+            <seealso cref="P:Robocode.Control.Events.RoundEndedEvent.TotalTurns"/>
+        </member>
+        <member name="P:Robocode.Control.Events.RoundEndedEvent.TotalTurns">
+            <summary>
+            Contains the total number of turns reached in the battle when this round ended.
+            </summary>
+            <value>
+            The total number of turns reached in the battle when this round ended. 
+            </value>
+            <seealso cref="P:Robocode.Control.Events.RoundEndedEvent.Turns"/>
+        </member>
+        <member name="T:Robocode.Control.Events.RoundStartedEvent">
+            <summary>
+            Contains information about a <see cref="E:Robocode.Control.IRobocodeEngine.RoundStarted"/> event that is
+            triggered when a new round in a battle is started. 
+            </summary>
+            <seealso cref="T:Robocode.Control.Events.RoundEndedEvent"/>
+        </member>
+        <member name="P:Robocode.Control.Events.RoundStartedEvent.StartSnapshot">
+            <summary>
+            Contains the start snapshot of the participating robots, initial starting positions etc.
+            </summary>
+            <value>
+            A <see cref="!:Robocode.Snapshot.ITurnSnapshot"/> that serves as the start snapshot of the round.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Events.RoundStartedEvent.Round">
+            <summary>
+            Contains  the round number.
+            </summary>
+            <value>
+            The round number, which is zero indexed.
+            </value>
+        </member>
+        <member name="T:Robocode.Control.Events.TurnEndedEvent">
+            <summary>
+            Contains information about a <see cref="E:Robocode.Control.IRobocodeEngine.TurnEnded"/> event that is
+            triggered when when the current turn in a battle round is ended.
+            </summary>
+            <seealso cref="T:Robocode.Control.Events.TurnStartedEvent"/>
+        </member>
+        <member name="P:Robocode.Control.Events.TurnEndedEvent.TurnSnapshot">
+            <summary>
+            Contains a snapshot of the turn that has ended.
+            </summary>
+            <value>
+            A snapshot of the turn that has ended.
+            </value>
+        </member>
+        <member name="T:Robocode.Control.Events.TurnStartedEvent">
+            <summary>
+            Contains information about a <see cref="E:Robocode.Control.IRobocodeEngine.TurnStarted"/> event that is
+            triggered when a new turn in a battle round is started.
+            </summary>
+            <seealso cref="T:Robocode.Control.Events.TurnEndedEvent"/>
+        </member>
+        <member name="T:Robocode.Control.Snapshot.BulletState">
+            <summary>
+            Defines a bullet state, which can be: just fired, moving somewhere, hitting a victim,
+            hitting another bullet, hitting the wall, exploded, or inactive.
+            </summary>
+        </member>
+        <member name="F:Robocode.Control.Snapshot.BulletState.Fired">
+            <summary>
+            The bullet has just been fired this turn and hence just been created.
+            This state only last one turn.
+            </summary>
+        </member>
+        <member name="F:Robocode.Control.Snapshot.BulletState.Moving">
+            <summary>
+            The bullet is now moving across the battlefield, but has not hit anything yet.
+            </summary>
+        </member>
+        <member name="F:Robocode.Control.Snapshot.BulletState.HitVictim">
+            <summary>
+            The bullet has hit a robot victim.
+            </summary>
+        </member>
+        <member name="F:Robocode.Control.Snapshot.BulletState.HitBullet">
+            <summary>
+            The bullet has hit another bullet.
+            </summary>
+        </member>
+        <member name="F:Robocode.Control.Snapshot.BulletState.HitWall">
+            <summary>
+            The bullet has the wall, i.e. one of the four borders of the battlefield.
+            </summary>
+        </member>
+        <member name="F:Robocode.Control.Snapshot.BulletState.Exploded">
+            <summary>
+            The bullet currently represents a robot explosion, i.e. a robot death.
+            </summary>
+        </member>
+        <member name="F:Robocode.Control.Snapshot.BulletState.Inactive">
+            <summary>
+            The bullet is currently inactive. Hence, it is not active or visible on the battlefield.
+            </summary>
+        </member>
+        <member name="T:Robocode.Control.Snapshot.IBulletSnapshot">
+            <summary>
+            Interface of a bullet snapshot at a specific time in a battle.
+            </summary>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IBulletSnapshot.State">
+            <summary>
+            Contains the bullet state.
+            </summary>
+            <value>
+            The bullet state.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IBulletSnapshot.Power">
+            <summary>
+            Contains the bullet power.
+            </summary>
+            <value>
+            The bullet power.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IBulletSnapshot.X">
+            <summary>
+            Contains the X position of the bullet.
+            </summary>
+            <value>
+            The X position of the bullet.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IBulletSnapshot.Y">
+            <summary>
+            Contains the Y position of the bullet.
+            </summary>
+            <value>
+            The Y position of the bullet.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IBulletSnapshot.PaintX">
+            <summary>
+            Contains the X painting position of the bullet.
+            Note that this is not necessarily equal to the X position of the bullet, even though
+            it will be in most cases. The painting position of the bullet is needed as the bullet
+            will "stick" to its victim when it has been hit, but only visually. 
+            </summary>
+            <value>
+            The X painting position of the bullet.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IBulletSnapshot.PaintY">
+            <summary>
+            Contains the Y painting position of the bullet.
+            Note that this is not necessarily equal to the Y position of the bullet, even though
+            it will be in most cases. The painting position of the bullet is needed as the bullet
+            will "stick" to its victim when it has been hit, but only visually. 
+            </summary>
+            <value>
+            The Y painting position of the bullet.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IBulletSnapshot.Color">
+            <summary>
+            Contains the color of the bullet.
+            </summary>
+            <value>
+            An ARGB color value. (Bits 24-31 are alpha, 16-23 are red, 8-15 are green, 0-7 are blue)
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IBulletSnapshot.Frame">
+            <summary>
+            Contains the current frame number to display, i.e. when the bullet explodes.
+            </summary>
+            <value>
+            The current frame number.
+            </value>
+            <seealso cref="P:Robocode.Control.Snapshot.IBulletSnapshot.IsExplosion"/>
+            <seealso cref="P:Robocode.Control.Snapshot.IBulletSnapshot.ExplosionImageIndex"/>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IBulletSnapshot.IsExplosion">
+            <summary>
+            Flag specifying if the bullet has become an explosion.
+            </summary>
+            <value>
+            <em>true</em> if the bullet is an explosion; <em>false</em> otherwise.
+            </value>
+            <seealso cref="P:Robocode.Control.Snapshot.IBulletSnapshot.Frame"/>
+            <seealso cref="P:Robocode.Control.Snapshot.IBulletSnapshot.ExplosionImageIndex"/>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IBulletSnapshot.ExplosionImageIndex">
+            <summary>
+            Contains the explosion image index, which is different depending on the type of explosion.
+            E.g. if it is a small explosion on a robot that has been hit by this bullet,
+            or a big explosion when a robot dies.
+            </summary>
+            <value>
+            The explosion image index.
+            </value>
+            <seealso cref="P:Robocode.Control.Snapshot.IBulletSnapshot.Frame"/>
+            <seealso cref="P:Robocode.Control.Snapshot.IBulletSnapshot.IsExplosion"/>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IBulletSnapshot.BulletId">
+            <summary>
+            Contains the ID of the bullet used for identifying the bullet in a collection of bullets.
+            </summary>
+            <value>
+            The ID of the bullet.
+            </value>
+        </member>
+        <member name="T:Robocode.Control.Snapshot.IDebugProperty">
+            <summary>
+            Interface of a debug property, which is a key-value pair.
+            </summary>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IDebugProperty.Key">
+            <summary>
+            Contains the key of the property.
+            </summary>
+            <value>
+            The key of the property.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IDebugProperty.Value">
+            <summary>
+            Contains the value of the property.
+            </summary>
+            <value>
+            The value of the property.
+            </value>
+        </member>
+        <member name="T:Robocode.Control.Snapshot.IRobotSnapshot">
+            <summary>
+            Interface of a robot snapshot at a specific time in a battle.
+            </summary>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.Name">
+            <summary>
+            Contains the name of the robot.
+            </summary>
+            <value>
+            The name of the robot.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.ShortName">
+            <summary>
+            Contains the short name of the robot.
+            </summary>
+            <value>
+            The short name of the robot.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.VeryShortName">
+            <summary>
+            Contains the very short name of the robot.
+            </summary>
+            <value>
+            The very short name of the robot.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.TeamName">
+            <summary>
+            Contains the name of the team, which can be the name of a robot if the contestant is not a team, but a robot.
+            </summary>
+            <value>
+            The name of the team.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.RobotIndex">
+            <summary>
+            Contains the index of the robot, which is unique for the specific robot and constant during a battle.
+            <strong>Since:</strong> 1.7.4.0
+            </summary>
+            <value>
+            The robot index.
+            </value>
+            <seealso cref="P:Robocode.Control.Snapshot.IRobotSnapshot.TeamIndex"/>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.TeamIndex">
+            <summary>
+            Contains the index of the team that this robot is a member of, which is unique for the specific team and constant
+            during a battle.
+            <strong>Since:</strong> 1.7.4.0
+            </summary>
+            <value>
+            The team index or -1 if the robot is not a member of a team.
+            </value>
+            <seealso cref="P:Robocode.Control.Snapshot.IRobotSnapshot.RobotIndex"/>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.ContestantIndex">
+            <summary>
+            Contains the contestant index, which is unique for each robot or team participating in a battle.
+            Note: If a team of robots is participating in a battle, this method will return the team index (see
+            <see cref="P:Robocode.Control.Snapshot.IRobotSnapshot.TeamIndex"/>); otherwise the robot index (see <see cref="P:Robocode.Control.Snapshot.IRobotSnapshot.RobotIndex"/>) is used instead.
+            This method is used for the battle results as scores are calculated for either a team of robots or individual
+            robot.
+            </summary>
+            <value>
+            The contestant index of the robot or team.
+            </value>
+            <seealso cref="P:Robocode.Control.Snapshot.IRobotSnapshot.RobotIndex"/>
+            <seealso cref="P:Robocode.Control.Snapshot.IRobotSnapshot.TeamIndex"/>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.State">
+            <summary>
+            Contains the robot state.
+            </summary>
+            <value>
+            The robot state.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.Energy">
+            <summary>
+            Contains the energy level of the robot.
+            </summary>
+            <value>
+            The energy level of the robot.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.Velocity">
+            <summary>
+            Contains the velocity of the robot.
+            </summary>
+            <value>
+            The velocity of the robot.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.BodyHeading">
+            <summary>
+            Contains the body heading of the robot in radians.
+            </summary>
+            <value>
+            The body heading of the robot in radians.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.GunHeading">
+            <summary>
+            Contains the gun heading of the robot in radians.
+            </summary>
+            <value>
+            The gun heading of the robot in radians.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.RadarHeading">
+            <summary>
+            Contains the radar heading of the robot in radians.
+            </summary>
+            <value>
+            The radar heading of the robot in radians.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.GunHeat">
+            <summary>
+            Contains the gun heat of the robot.
+            </summary>
+            <value>
+            The gun heat of the robot.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.X">
+            <summary>
+            Contains the X position of the robot.
+            </summary>
+            <value>
+            The X position of the robot.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.Y">
+            <summary>
+            Contains the Y position of the robot.
+            </summary>
+            <value>
+            The Y position of the robot.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.BodyColor">
+            <summary>
+            Contains the color of the body.
+            </summary>
+            <value>
+            An ARGB color value. (Bits 24-31 are alpha, 16-23 are red, 8-15 are green, 0-7 are blue)
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.GunColor">
+            <summary>
+            Contains the color of the gun.
+            </summary>
+            <value>
+            An ARGB color value. (Bits 24-31 are alpha, 16-23 are red, 8-15 are green, 0-7 are blue)
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.RadarColor">
+            <summary>
+            Contains the color of the radar.
+            </summary>
+            <value>
+            An ARGB color value. (Bits 24-31 are alpha, 16-23 are red, 8-15 are green, 0-7 are blue)
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.ScanColor">
+            <summary>
+            Contains the color of the scan arc.
+            </summary>
+            <value>
+            An ARGB color value. (Bits 24-31 are alpha, 16-23 are red, 8-15 are green, 0-7 are blue)
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.IsDroid">
+            <summary>
+            Flag specifying if this robot is an <see cref="T:Robocode.IDroid"/>.
+            </summary>
+            <value>
+            <em>true</em> if this robot is an <see cref="T:Robocode.IDroid"/>; <em>false</em> otherwise.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.IsPaintRobot">
+            <summary>
+            Flag specifying if this robot is an <see cref="T:Robocode.RobotInterfaces.IPaintRobot"/>.
+            </summary>
+            <value>
+            <em>true</em> if this robot is an <see cref="T:Robocode.RobotInterfaces.IPaintRobot"/>; <em>false</em> otherwise.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.IsPaintEnabled">
+            <summary>
+            Flag specifying if painting is enabled for this robot.
+            </summary>
+            <value>
+            <em>true</em> if painting is enabled for this robot; <em>false</em> otherwise.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.IsSGPaintEnabled">
+            <summary>
+            Flag specifying if RobocodeSG painting (the point (0,0) is in the upper left corner) is enabled for this robot.
+            </summary>
+            <value>
+            <em>true</em> if RobocodeSG painting is enabled for this robot; <em>false</em> otherwise.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.DebugProperties">
+            <summary>
+            Contains a snapshot of debug properties.
+            </summary>
+            <value>
+            A snapshot of debug properties.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.OutputStreamSnapshot">
+            <summary>
+            Contains a snapshot of the output print stream for this robot.
+            </summary>
+            <value>
+            A string containing the snapshot of the output print stream.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IRobotSnapshot.ScoreSnapshot">
+            <summary>
+            Contains a snapshot of the current score for this robot.
+            </summary>
+            <value>
+            A snapshot of the current score for this robot.
+            </value>
+        </member>
+        <member name="T:Robocode.Control.Snapshot.IScoreSnapshot">
+            <summary>
+            Interface of a bullet snapshot at a specific time in a battle.
+            </summary>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.Name">
+            <summary>
+            Contains the name of the contestant, i.e. a robot or team.
+            </summary>
+            <value>
+            The name of the contestant, i.e. a robot or team.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.TotalScore">
+            <summary>
+            Contains the total score.
+            </summary>
+            <value>
+            The total score.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.TotalSurvivalScore">
+            <summary>
+            Contains the total survival score.
+            </summary>
+            <value>
+            The total survival score.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.TotalLastSurvivorBonus">
+            <summary>
+            Contains the total last survival score.
+            </summary>
+            <value>
+            The total last survival score.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.TotalBulletDamageScore">
+            <summary>
+            Contains the total bullet damage score.
+            </summary>
+            <value>
+            The total bullet damage score.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.TotalBulletKillBonus">
+            <summary>
+            Contains the total bullet kill bonus.
+            </summary>
+            <value>
+            The total bullet kill bonus.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.TotalRammingDamageScore">
+            <summary>
+            Contains the total ramming damage score.
+            </summary>
+            <value>
+            The total ramming damage score.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.TotalRammingKillBonus">
+            <summary>
+            Contains the total ramming kill bonus.
+            </summary>
+            <value>
+            The total ramming kill bonus.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.TotalFirsts">
+            <summary>
+            Contains the total number of first places.
+            </summary>
+            <value>
+            The total number of first places.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.TotalSeconds">
+            <summary>
+            Contains the total number of second places.
+            </summary>
+            <value>
+            The total number of second places.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.TotalThirds">
+            <summary>
+            Contains the total number of third places.
+            </summary>
+            <value>
+            The total number of third places.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.CurrentScore">
+            <summary>
+            Contains the current score.
+            </summary>
+            <value>
+            The current score.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.CurrentSurvivalScore">
+            <summary>
+            Contains the current survival score.
+            </summary>
+            <value>
+            The current survival score.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.CurrentSurvivalBonus">
+            <summary>
+            Contains the current survival bonus.
+            </summary>
+            <value>
+            The current survival bonus.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.CurrentBulletDamageScore">
+            <summary>
+            Contains the current bullet damage score.
+            </summary>
+            <value>
+            The current bullet damage score.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.CurrentBulletKillBonus">
+            <summary>
+            Contains the current bullet kill bonus.
+            </summary>
+            <value>
+            The current bullet kill bonus.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.CurrentRammingDamageScore">
+            <summary>
+            Contains the current ramming damage score.
+            </summary>
+            <value>
+            The current ramming damage score.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.IScoreSnapshot.CurrentRammingKillBonus">
+            <summary>
+            Contains the current ramming kill bonus.
+            </summary>
+            <value>
+            The current ramming kill bonus.
+            </value>
+        </member>
+        <member name="T:Robocode.Control.Snapshot.ITurnSnapshot">
+            <summary>
+            Interface of a battle turn snapshot at a specific time in a battle.
+            </summary>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.ITurnSnapshot.Robots">
+            <summary>
+            Contains a list of snapshots for the robots participating in the battle.
+            </summary>
+            <value>
+            A list of snapshots for the robots participating in the battle.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.ITurnSnapshot.Bullets">
+            <summary>
+            Contains a list of snapshots for the bullets that are currently on the battlefield.
+            </summary>
+            <value>
+            A list of snapshots for the bullets that are currently on the battlefield.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.ITurnSnapshot.TPS">
+            <summary>
+            Contains the current TPS (turns per second) rate.
+            </summary>
+            <value>
+            The current TPS (turns per second) rate.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.ITurnSnapshot.Round">
+            <summary>
+            Contains the current round of the battle.
+            </summary>
+            <value>
+            The current round of the battle.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.ITurnSnapshot.Turn">
+            <summary>
+            Contains the current turn in the battle round.
+            </summary>
+            <value>
+            The current turn in the battle round.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.ITurnSnapshot.SortedTeamScores">
+            <summary>
+            Contains an array of sorted scores grouped by teams, ordered by position.
+            Note that the team index cannot be used to determine the score with the sorted scores.
+            </summary>
+            <value>
+            An array of sorted IScoreSnapshots, where the bigger scores are placed first in the list.
+            </value>
+            <seealso cref="P:Robocode.Control.Snapshot.ITurnSnapshot.IndexedTeamScores"/>
+        </member>
+        <member name="P:Robocode.Control.Snapshot.ITurnSnapshot.IndexedTeamScores">
+            <summary>
+            Contains an array of indexed scores grouped by teams that can be used to determine the score
+            for the individual team based on the team index.
+            </summary>
+            <value>
+            An array of indexed IScoreSnapshots, where each index matches an index of a specific team.
+            </value>
+            <seealso cref="!:SortedResults"/>
+        </member>
+        <member name="T:Robocode.Control.Snapshot.RobotState">
+            <summary>
+            Defines a robot state, which can be: active on the battlefield, hitting a wall or robot this turn, or dead.
+            </summary>
+        </member>
+        <member name="F:Robocode.Control.Snapshot.RobotState.Active">
+            <summary>
+            The robot is active on the battlefield and has not hit the wall or a robot at this turn.
+            </summary>
+        </member>
+        <member name="F:Robocode.Control.Snapshot.RobotState.HitWall">
+            <summary>
+            The robot has hit a wall, i.e. one of the four borders, at this turn. This state only last one turn.
+            </summary>
+        </member>
+        <member name="F:Robocode.Control.Snapshot.RobotState.HitRobot">
+            <summary>
+            The robot has hit another robot at this turn. This state only last one turn.
+            </summary>
+        </member>
+        <member name="F:Robocode.Control.Snapshot.RobotState.Dead">
+            <summary>
+            The robot is dead.
+            </summary>
+        </member>
+        <member name="T:Robocode.Control.BattlefieldSpecification">
+            <summary>
+            Defines the size of a battlefield, which is a part of the <see cref="T:Robocode.Control.BattleSpecification"/>.
+            </summary>
+            <seealso cref="M:Robocode.Control.BattleSpecification.#ctor(System.Int32,Robocode.Control.BattlefieldSpecification,Robocode.Control.RobotSpecification[])"/>
+            <seealso cref="M:Robocode.Control.BattleSpecification.#ctor(System.Int32,System.Int64,System.Double,Robocode.Control.BattlefieldSpecification,Robocode.Control.RobotSpecification[])"/>
+            <seealso cref="P:Robocode.Control.BattleSpecification.Battlefield"/>
+        </member>
+        <member name="M:Robocode.Control.BattlefieldSpecification.#ctor">
+            <summary>
+            Creates a standard 800 x 600 battlefield.
+            </summary>
+        </member>
+        <member name="M:Robocode.Control.BattlefieldSpecification.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Creates a battlefield of the specified width and height.
+            </summary>
+            <param name="width">The width of the battlefield, where 400 &lt;= width &lt;= 5000.</param>
+            <param name="height">The height of the battlefield, where 400 &lt;= height &lt;= 5000.</param>
+            <exception cref="T:System.ArgumentException">Thrown when the width or height is &lt; 400 or &gt; 5000.
+            </exception>
+        </member>
+        <member name="P:Robocode.Control.BattlefieldSpecification.Width">
+            <summary>
+            Contains the width of this battlefield.
+            </summary>
+            <value>
+            The width of this battlefield.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.BattlefieldSpecification.Height">
+            <summary>
+            Contains the height of this battlefield.
+            </summary>
+            <value>
+            The height of this battlefield.
+            </value>
+        </member>
+        <member name="T:Robocode.Control.BattleSpecification">
+            <summary>
+            A BattleSpecification defines a battle configuration used by the <see cref="T:Robocode.Control.RobocodeEngine"/>.
+            </summary>
+        </member>
+        <member name="M:Robocode.Control.BattleSpecification.#ctor(System.Int32,Robocode.Control.BattlefieldSpecification,Robocode.Control.RobotSpecification[])">
+            <summary>
+            Creates a new BattleSpecification with the given number of rounds,
+            battlefield size, and robots. Inactivity time for the robots defaults to
+            450, and the gun cooling rate defaults to 0.1.
+            </summary>
+            <param name="numRounds">The number of rounds in this battle.</param>
+            <param name="battlefieldSize">The battlefield size.</param>
+            <param name="robots">The robots participating in this battle.</param>
+        </member>
+        <member name="M:Robocode.Control.BattleSpecification.#ctor(System.Int32,System.Int64,System.Double,Robocode.Control.BattlefieldSpecification,Robocode.Control.RobotSpecification[])">
+            <summary>
+            Creates a new BattleSpecification with the given settings.
+            </summary>
+            <param name="numRounds">The number of rounds in this battle.</param>
+            <param name="inactivityTime">The inactivity time allowed for the robots before
+            they will loose energy.</param>
+            <param name="gunCoolingRate">The gun cooling rate for the robots.</param>
+            <param name="battlefieldSize">The battlefield size.</param>
+            <param name="robots">The robots participating in this battle.</param>
+        </member>
+        <member name="M:Robocode.Control.BattleSpecification.#ctor(System.Int32,System.Int64,System.Double,System.Boolean,Robocode.Control.BattlefieldSpecification,Robocode.Control.RobotSpecification[])">
+            <summary>
+            Creates a new BattleSpecification with the given settings.
+            </summary>
+            <param name="numRounds">The number of rounds in this battle.</param>
+            <param name="inactivityTime">The inactivity time allowed for the robots before
+            they will loose energy.</param>
+            <param name="gunCoolingRate">The gun cooling rate for the robots.</param>
+            <param name="hideEnemyNames">Flag specifying if enemy names are hidden from robots.</param>
+            <param name="battlefieldSize">The battlefield size.</param>
+            <param name="robots">The robots participating in this battle.</param>
+        </member>
+        <member name="M:Robocode.Control.BattleSpecification.#ctor(Robocode.Control.BattlefieldSpecification,System.Int32,System.Int64,System.Double,System.Int32,System.Boolean,Robocode.Control.RobotSpecification[])">
+            <summary>
+            Creates a new BattleSpecification with the given settings.
+            </summary>
+            <param name="battlefieldSize">The battlefield size.</param>
+            <param name="numRounds">The number of rounds in this battle.</param>
+            <param name="inactivityTime">The inactivity time allowed for the robots before
+            they will loose energy.</param>
+            <param name="gunCoolingRate">The gun cooling rate for the robots.</param>
+            <param name="sentryBorderSize">The sentry border size for a <see cref="T:Robocode.IBorderSentry">BorderSentry</see>.</param>
+            <param name="hideEnemyNames">Flag specifying if enemy names are hidden from robots.</param>
+            <param name="robots">The robots participating in this battle.</param>
+        </member>
+        <member name="M:Robocode.Control.BattleSpecification.#ctor(Robocode.Control.BattlefieldSpecification,System.Int32,System.Int64,System.Double,System.Int32,System.Boolean,Robocode.Control.RobotSpecification[],Robocode.Control.RobotSetup[])">
+            <summary>
+            Creates a new BattleSpecification with the given settings.
+            </summary>
+            <param name="battlefieldSize">The battlefield size.</param>
+            <param name="numRounds">The number of rounds in this battle.</param>
+            <param name="inactivityTime">The inactivity time allowed for the robots before
+            they will loose energy.</param>
+            <param name="gunCoolingRate">The gun cooling rate for the robots.</param>
+            <param name="sentryBorderSize">The sentry border size for a <see cref="T:Robocode.IBorderSentry">BorderSentry</see>.</param>
+            <param name="hideEnemyNames">Flag specifying if enemy names are hidden from robots.</param>
+            <param name="robots">The robots participating in this battle.</param>
+            <param name="initialSetups">The initial position and heading of the robots, where the indices matches the indices from the <paramref name="robots"/>.</param>
+        </member>
+        <member name="P:Robocode.Control.BattleSpecification.InactivityTime">
+            <summary>
+            Contains the allowed inactivity time for the robots in this battle.
+            </summary>
+            <value>
+            The allowed inactivity time for the robots in this battle.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.BattleSpecification.GunCoolingRate">
+            <summary>
+            Contains the gun cooling rate of the robots in this battle.
+            </summary>
+            <value>
+            The gun cooling rate of the robots in this battle.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.BattleSpecification.Battlefield">
+            <summary>
+            Contains the battlefield size for this battle.
+            </summary>
+            <value>
+            The battlefield size for this battle.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.BattleSpecification.NumRounds">
+            <summary>
+            Contains the number of rounds in this battle.
+            </summary>
+            <value>
+            The number of rounds in this battle.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.BattleSpecification.HideEnemyNames">
+            <summary>
+            Flag specifying if the enemy names must be hidden from events sent to robots.
+            </summary>
+            <value>
+            <code>true</code> if the enemy names must be hidden; <code>false</code> otherwise.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.BattleSpecification.SentryBorderSize">
+            <summary>
+              Returns the sentry border size for a <see cref="T:Robocode.IBorderSentry">BorderSentry</see> that defines the how
+              far a BorderSentry is allowed to move from the border edges measured in units.
+              <p/>
+              Hence, the sentry border size defines the width/range of the border area surrounding the battlefield that
+              border sentry robots cannot leave (they must stay in the border area), but it also define the
+              distance from the border edges where border sentry robots are allowed/able to make damage to robots entering this
+              border area.
+            </summary>
+        </member>
+        <member name="P:Robocode.Control.BattleSpecification.Robots">
+            <summary>
+            Contains the specifications of the robots participating in this battle.
+            </summary>
+            <value>
+            An array of <see cref="T:Robocode.Control.RobotSpecification"/> instances - one entry for each robot.
+            </value>
+            <seealso cref="P:Robocode.Control.RobotSpecification.InitialSetups"/>
+        </member>
+        <member name="P:Robocode.Control.BattleSpecification.InitialSetups">
+            <summary>
+            Contains the initial position and heading of each robot participating in this battle.
+            </summary>
+            <value>
+            An array of <see cref="T:Robocode.Control.RobotSetup"/> instances - one entry for each robot.
+            The the indices of this array matches the array indices from the robot specifications (see <see cref="P:Robocode.Control.RobotSpecification.Robots"/>).
+            </value>
+            <seealso cref="P:Robocode.Control.RobotSpecification.Robots"/>
+        </member>
+        <member name="T:Robocode.Control.BattleStartedEventHandler">
+            <summary>
+            Event handler for the <see cref="T:Robocode.Control.Events.BattleStartedEvent"/>.
+            </summary>
+            <param name="evnt">The <see cref="T:Robocode.Control.Events.BattleStartedEvent"/> event.</param>
+        </member>
+        <member name="T:Robocode.Control.BattleFinishedEventHandler">
+            <summary>
+            Event handler for the <see cref="T:Robocode.Control.Events.BattleFinishedEvent"/>.
+            </summary>
+            <param name="evnt">The <see cref="T:Robocode.Control.Events.BattleFinishedEvent"/> event.</param>
+        </member>
+        <member name="T:Robocode.Control.BattleCompletedEventHandler">
+            <summary>
+            Event handler for the <see cref="T:Robocode.Control.Events.BattleCompletedEvent"/>.
+            </summary>
+            <param name="evnt">The <see cref="T:Robocode.Control.Events.BattleCompletedEvent"/> event.</param>
+        </member>
+        <member name="T:Robocode.Control.BattlePausedEventHandler">
+            <summary>
+            Event handler for the <see cref="T:Robocode.Control.Events.BattlePausedEvent"/>.
+            </summary>
+            <param name="evnt">The <see cref="T:Robocode.Control.Events.BattlePausedEvent"/> event.</param>
+        </member>
+        <member name="T:Robocode.Control.BattleResumedEventHandler">
+            <summary>
+            Event handler for the <see cref="T:Robocode.Control.Events.BattleResumedEvent"/>.
+            </summary>
+            <param name="evnt">The <see cref="T:Robocode.Control.Events.BattleResumedEvent"/> event.</param>
+        </member>
+        <member name="T:Robocode.Control.RoundStartedEventHandler">
+            <summary>
+            Event handler for the <see cref="T:Robocode.Control.Events.RoundStartedEvent"/>.
+            </summary>
+            <param name="evnt">The <see cref="T:Robocode.Control.Events.RoundStartedEvent"/> event.</param>
+        </member>
+        <member name="T:Robocode.Control.RoundEndedEventHandler">
+            <summary>
+            Event handler for the <see cref="T:Robocode.Control.Events.RoundEndedEvent"/>.
+            </summary>
+            <param name="evnt">The <see cref="T:Robocode.RoundEndedEvent"/> event.</param>
+        </member>
+        <member name="T:Robocode.Control.TurnStartedEventHandler">
+            <summary>
+            Event handler for the <see cref="T:Robocode.Control.Events.TurnStartedEvent"/>.
+            </summary>
+            <param name="evnt">The <see cref="T:Robocode.Control.Events.TurnStartedEvent"/> event.</param>
+        </member>
+        <member name="T:Robocode.Control.TurnEndedEventHandler">
+            <summary>
+            Event handler for the <see cref="T:Robocode.Control.Events.TurnEndedEvent"/>.
+            </summary>
+            <param name="evnt">The <see cref="T:Robocode.Control.Events.TurnEndedEvent"/> event.</param>
+        </member>
+        <member name="T:Robocode.Control.BattleMessageEventHandler">
+            <summary>
+            Event handler for the <see cref="T:Robocode.Control.Events.BattleMessageEvent"/>.
+            </summary>
+            <param name="evnt">The <see cref="T:Robocode.Control.Events.BattleMessageEvent"/> event.</param>
+        </member>
+        <member name="T:Robocode.Control.BattleErrorEventHandler">
+            <summary>
+            Event handler for the <see cref="T:Robocode.Control.Events.BattleErrorEvent"/>.
+            </summary>
+            <param name="evnt">The <see cref="T:Robocode.Control.Events.BattleErrorEvent"/> event.</param>
+        </member>
+        <member name="T:Robocode.Control.IRobocodeEngine">
+            <summary>
+            Interface for a RobocodeEngine.
+            </summary>
+        </member>
+        <member name="M:Robocode.Control.IRobocodeEngine.Close">
+            <summary>
+            Closes the RobocodeEngine and releases any allocated resources it holds.
+            You should call this when you have finished using the RobocodeEngine.
+            This method automatically disposes the Robocode window if it open.
+            </summary>
+        </member>
+        <member name="M:Robocode.Control.IRobocodeEngine.GetLocalRepository">
+            <summary>
+            Returns all robots available from the local robot repository of Robocode.
+            These robots must exists in the \robocode\robots directory, and must be
+            compiled in advance, before these robot are returned with this method.
+            </summary>
+            <returns>
+            An array of all available robots from the local robot repository.
+            </returns>
+        </member>
+        <member name="M:Robocode.Control.IRobocodeEngine.GetLocalRepository(System.String)">
+            <summary>
+            Returns a selection of robots available from the local robot repository
+            of Robocode. These robots must exists in the \robocode\robots directory,
+            and must be compiled in advance, before these robot are returned with this method.
+            <p/>
+            Notice: If a specified robot cannot be found in the repository, it will
+            not be returned in the array of robots returned by this method.
+            </summary>
+            <param name="selectedRobotList">A comma or space separated list of robots to return.
+            The full class name must be used for specifying the individual robot, e.g.
+            "sample.Corners, sample.Crazy".</param>
+            <returns>
+            An array containing the available robots from the local robot repository based on
+            the selected robots specified with the <em>selectedRobotList</em> parameter.
+            </returns>
+        </member>
+        <member name="M:Robocode.Control.IRobocodeEngine.RunBattle(Robocode.Control.BattleSpecification)">
+            <summary>
+            Runs the specified battle.
+            </summary>
+            <param name="battleSpecification">The specification of the battle to run
+            including the participation robots.</param>
+            <seealso cref="M:Robocode.Control.IRobocodeEngine.GetLocalRepository"/>
+        </member>
+        <member name="M:Robocode.Control.IRobocodeEngine.RunBattle(Robocode.Control.BattleSpecification,System.Boolean)">
+            <summary>
+            Runs the specified battle.
+            </summary>
+            <param name="battleSpecification">The specification of the battle to run
+            including the participating robots.</param>
+            <param name="waitTillOver">Will block caller till end of battle if set.</param>
+            <seealso cref="M:Robocode.Control.IRobocodeEngine.GetLocalRepository"/>
+        </member>
+        <member name="M:Robocode.Control.IRobocodeEngine.RunBattle(Robocode.Control.BattleSpecification,System.String,System.Boolean)">
+            <summary>
+            Runs the specified battle.
+            </summary>
+            <param name="battleSpecification">The specification of the battle to run
+            including the participating robots.</param>
+            <param name="initialPositions">A comma or space separated list like:
+            x1,y1,heading1, x2,y2,heading2, which are the coordinates and heading of
+            robot #1 and #2. So e.g. 0,0,180, 50,80,270 means that robot #1 has position
+            (0,0) and heading 180, and robot #2 has position (50,80) and heading 270.</param>
+            <param name="waitTillOver">Will block caller till end of battle if set.</param>
+            <seealso cref="M:Robocode.Control.IRobocodeEngine.GetLocalRepository"/>
+        </member>
+        <member name="M:Robocode.Control.IRobocodeEngine.WaitTillBattleOver">
+            <summary>
+            Will block caller until current battle is over.
+            </summary>
+            <seealso cref="M:Robocode.Control.IRobocodeEngine.RunBattle(Robocode.Control.BattleSpecification)"/>
+        </member>
+        <member name="M:Robocode.Control.IRobocodeEngine.AbortCurrentBattle">
+            <summary>
+            Aborts the current battle if it is running.
+            </summary>
+            <seealso cref="M:Robocode.Control.IRobocodeEngine.RunBattle(Robocode.Control.BattleSpecification)"/>
+        </member>
+        <member name="E:Robocode.Control.IRobocodeEngine.BattleStarted">
+            <summary>
+            Occurs when a new battle is started.
+            </summary>
+        </member>
+        <member name="E:Robocode.Control.IRobocodeEngine.BattleFinished">
+            <summary>
+            Occurs when the battle is finished, where the battle can be either completed or aborted.
+            </summary>
+        </member>
+        <member name="E:Robocode.Control.IRobocodeEngine.BattleCompleted">
+            <summary>
+            Occurs when the battle is completed successfully and results are available.
+            </summary>
+        </member>
+        <member name="E:Robocode.Control.IRobocodeEngine.BattlePaused">
+            <summary>
+            Occurs when the battle is paused.
+            </summary>
+        </member>
+        <member name="E:Robocode.Control.IRobocodeEngine.BattleResumed">
+            <summary>
+            Occurs when the battle is resumed after having been paused.
+            </summary>
+        </member>
+        <member name="E:Robocode.Control.IRobocodeEngine.RoundStarted">
+            <summary>
+            Occurs when a new round is started.
+            </summary>
+        </member>
+        <member name="E:Robocode.Control.IRobocodeEngine.RoundEnded">
+            <summary>
+            Occurs when a round has ended.
+            </summary>
+        </member>
+        <member name="E:Robocode.Control.IRobocodeEngine.TurnStarted">
+            <summary>
+            Occurs when a new turn is started.
+            </summary>
+        </member>
+        <member name="E:Robocode.Control.IRobocodeEngine.TurnEnded">
+            <summary>
+            Occurs when a new turn is ended.
+            </summary>
+        </member>
+        <member name="E:Robocode.Control.IRobocodeEngine.BattleMessage">
+            <summary>
+            Occurs when a message from the battle is sent from the game.
+            </summary>
+        </member>
+        <member name="E:Robocode.Control.IRobocodeEngine.BattleError">
+            <summary>
+            Occurs when an error message from the battle is sent from the game.
+            </summary>
+        </member>
+        <member name="P:Robocode.Control.IRobocodeEngine.Version">
+            <summary>
+            Contains the installed version of Robocode controlled by this RobocodeEngine.
+            </summary>
+            <value>
+            The installed version of Robocode controlled by this RobocodeEngine.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.IRobocodeEngine.Visible">
+            <summary>
+            Contains the visible state of the Robocode window.
+            </summary>
+            <value>
+            Sets/gets the visible state of the Robocode window, where
+            <em>true</em> means that the window is visible, and
+            <em>false</em> means that the window is hidden.
+            </value>
+        </member>
+        <member name="T:Robocode.Control.RobocodeEngine">
+            <summary>
+            The RobocodeEngine is the interface provided for external applications
+            in order to let these applications run battles within the Robocode application,
+            and to get the results from these battles.
+            <p/>
+            This class in the main entry class of the <see cref="N:Robocode.Control"/> namespace.
+            <p/>
+            The RobocodeEngine is used by e.g. RoboRumble@Home client, which is integrated in
+            Robocode. In addition, the RobocodeEngine is also used by the test units for
+            testing the Robocode application itself.
+            </summary>
+        </member>
+        <member name="M:Robocode.Control.RobocodeEngine.#ctor">
+            <summary>
+            Creates a new RobocodeEngine for controlling Robocode.
+            In order for this constructor to work, the current working directory must be the
+            home directory directory of Robocode, e.g. C:\Robocode
+            </summary>
+            <seealso cref="M:Robocode.Control.RobocodeEngine.Close"/>
+        </member>
+        <member name="M:Robocode.Control.RobocodeEngine.#ctor(System.String)">
+            <summary>
+            Creates a new RobocodeEngine for controlling Robocode, where the home directory
+            of Robocode is specified.
+            </summary>
+            <param name="robocodeHome">The root directory of Robocode, e.g. "C:\Robocode".</param>
+            <seealso cref="M:Robocode.Control.RobocodeEngine.Close"/>
+        </member>
+        <member name="M:Robocode.Control.RobocodeEngine.Close">
+            <inheritdoc/>
+        </member>
+        <member name="M:Robocode.Control.RobocodeEngine.GetLocalRepository">
+            <inheritdoc/>
+        </member>
+        <member name="M:Robocode.Control.RobocodeEngine.GetLocalRepository(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Robocode.Control.RobocodeEngine.RunBattle(Robocode.Control.BattleSpecification)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Robocode.Control.RobocodeEngine.RunBattle(Robocode.Control.BattleSpecification,System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Robocode.Control.RobocodeEngine.RunBattle(Robocode.Control.BattleSpecification,System.String,System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Robocode.Control.RobocodeEngine.WaitTillBattleOver">
+            <inheritdoc/>
+        </member>
+        <member name="M:Robocode.Control.RobocodeEngine.AbortCurrentBattle">
+            <inheritdoc/>
+        </member>
+        <member name="M:Robocode.Control.RobocodeEngine.PrintRunningThreads">
+            <summary>
+            Prints out all running threads to standard system out.
+            </summary>
+        </member>
+        <member name="E:Robocode.Control.RobocodeEngine.BattleStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:Robocode.Control.RobocodeEngine.BattleFinished">
+            <inheritdoc/>
+        </member>
+        <member name="E:Robocode.Control.RobocodeEngine.BattleCompleted">
+            <inheritdoc/>
+        </member>
+        <member name="E:Robocode.Control.RobocodeEngine.BattlePaused">
+            <inheritdoc/>
+        </member>
+        <member name="E:Robocode.Control.RobocodeEngine.BattleResumed">
+            <inheritdoc/>
+        </member>
+        <member name="E:Robocode.Control.RobocodeEngine.RoundStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:Robocode.Control.RobocodeEngine.RoundEnded">
+            <inheritdoc/>
+        </member>
+        <member name="E:Robocode.Control.RobocodeEngine.TurnStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:Robocode.Control.RobocodeEngine.TurnEnded">
+            <inheritdoc/>
+        </member>
+        <member name="E:Robocode.Control.RobocodeEngine.BattleMessage">
+            <inheritdoc/>
+        </member>
+        <member name="E:Robocode.Control.RobocodeEngine.BattleError">
+            <inheritdoc/>
+        </member>
+        <member name="P:Robocode.Control.RobocodeEngine.Version">
+            <inheritdoc/>
+        </member>
+        <member name="P:Robocode.Control.RobocodeEngine.CurrentWorkingDir">
+            <summary>
+            Returns the current working directory for Robocode.
+            </summary>
+            <returns>
+            The name of the current working directory.
+            </returns>
+        </member>
+        <member name="P:Robocode.Control.RobocodeEngine.RobotsDir">
+            <summary>
+            Returns the directory containing the robots.
+            </summary>
+            <returns>
+            The name of the robot directory containing all robots.
+            </returns>
+        </member>
+        <member name="P:Robocode.Control.RobocodeEngine.Visible">
+            <inheritdoc/>
+        </member>
+        <member name="P:Robocode.Control.RobocodeEngine.LogMessagesEnabled">
+            <summary>
+            Enables or disables messages and warnings logged to Console.Out.
+            </summary>
+            <value>
+            <em>true</em> means that log messages must be enabled, and
+            <em>false</em> means that log messages must be disabled.
+            </value>
+            <seealso cref="P:Robocode.Control.RobocodeEngine.LogErrorsEnabled"/>
+        </member>
+        <member name="P:Robocode.Control.RobocodeEngine.LogErrorsEnabled">
+            <summary>
+            Enables or disables errors logged to Console.Error.
+            </summary>
+            <value>
+            <em>true</em> means that log errors must be enabled, and
+            <em>false</em> means that log errors must be disabled.
+            </value>
+            <seealso cref="P:Robocode.Control.RobocodeEngine.LogMessagesEnabled"/>
+        </member>
+        <member name="T:Robocode.Control.RobotSetup">
+            <summary>
+            Contains the initial position and heading for a robot.
+            </summary>
+        </member>
+        <!-- Ugyldig XML-kommentar ignoreret for medlemmet "M:Robocode.Control.RobotSetup.#ctor(System.Double,System.Double,System.Double)" -->
+        <member name="P:Robocode.Control.RobotSetup.X">
+            <summary>
+            Contains the x coordinate.
+            </summary>
+            <value>
+            The x coordinate, where <code>null</code> means unspecified (random).
+            </value>
+        </member>
+        <member name="P:Robocode.Control.RobotSetup.Y">
+            <summary>
+            Contains the y coordinate.
+            </summary>
+            <value>
+            The y coordinate, where <code>null</code> means unspecified (random).
+            </value>
+        </member>
+        <member name="P:Robocode.Control.RobotSetup.Heading">
+            <summary>
+            Contains the body, gun, and radar heading (in degrees).
+            </summary>
+            <value>
+            The heading (in degrees), where <code>null</code> means unspecified (random).
+            </value>
+        </member>
+        <member name="T:Robocode.Control.RobotSpecification">
+            <summary>
+            Defines the properties of a robot, which is returned from
+            <see cref="M:Robocode.Control.RobocodeEngine.GetLocalRepository"/>.
+            </summary>
+        </member>
+        <member name="P:Robocode.Control.RobotSpecification.Name">
+            <summary>
+            Contains the name of this robot or team.
+            </summary>
+            <value>
+            The name of this robot or team.
+            </value>
+            <seealso cref="P:Version"/>
+            <seealso cref="P:NameAndVersion"/>
+        </member>
+        <member name="P:Robocode.Control.RobotSpecification.Version">
+            <summary>
+            Contains the version of this robot or team.
+            </summary>
+            <value>
+            The version of this robot or team.
+            </value>
+            <seealso cref="P:Name"/>
+            <seealso cref="P:NameAndVersion"/>
+        </member>
+        <member name="P:Robocode.Control.RobotSpecification.NameAndVersion">
+            <summary>
+            Contains the name and version of this robot or team.
+            </summary>
+            <value>
+            The name and version of this robot or team.
+            </value>
+            <seealso cref="P:Name"/>
+            <seealso cref="P:Version"/>
+        </member>
+        <member name="P:Robocode.Control.RobotSpecification.ClassName">
+            <summary>
+            Contains the full class name of this robot or team.
+            </summary>
+            <value>
+            The full class name of this robot or team.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.RobotSpecification.ArchiveFilePath">
+            <summary>
+            Contains the path of the archive file containing this robot or team.
+            </summary>
+            <value>
+            The path of the archive file containing this robot or team or <em>null</em>
+            if it does not come from an archive file (could be class files instead).
+            </value>
+        </member>
+        <member name="P:Robocode.Control.RobotSpecification.Description">
+            <summary>
+            Contains the description provided by the author of this robot or team.
+            </summary>
+            <value>
+            The description provided by the author of this robot or team.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.RobotSpecification.RobocodeVersion">
+            <summary>
+            Contains the version of Robocode this robot or team was build with.
+            </summary>
+            <value>
+            The version of Robocode this robot or team was build with.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.RobotSpecification.Webpage">
+            <summary>
+            Contains the link to the web page for this robot or team.
+            </summary>
+            <value>
+            The link to the web page for this robot or team.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.RobotSpecification.AuthorName">
+            <summary>
+            Contains the name of the author of this robot or team.
+            </summary>
+            <value>
+            The name of the author of this robot or team.
+            </value>
+        </member>
+        <member name="P:Robocode.Control.RobotSpecification.TeamId">
+            <summary>
+            Contains the id of the robot team.
+            </summary>
+            <value>
+            The id of the robot team.
+            </value>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,3 @@
+Discuss the decision-making models we've covered; identify games that you think may have employed at least two of these (of game playing, finite state machines, decision trees, and behavior trees). What do you think are the strengths and/or weaknesses of those models in those contexts?
+
+After this discussion is completed, briefly review the Robocode environment together; take a look as some of the sample robots. What strategies will your team consider? Will those strategies depend on a particular decision making model? Identify possible models you may choose to use, and the benefits / drawbacks of those for this application.

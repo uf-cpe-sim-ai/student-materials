@@ -1,0 +1,7 @@
+A) Brainstorm a list of 5-10 interesting well defined problems, whether from games, simulations, or life. (E.g.: path planning; 8-puzzle; other 1-player games or puzzles - not 2-player games!) Narrow down one problem to focus on. Identify the key parts of the problem:
+
+1) What makes up a problem state (accumulation of changes)?
+2) What is the state space for the problem and goal state(s)?
+3) What finite, unambiguous set of operators act on the states?
+
+B) Describe how you would solve the problem. How would the problem state be represented? The operators? How would you avoid duplicate states? Put together a brief summary of as before (poster / slides / etc).

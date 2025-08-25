@@ -1,0 +1,3 @@
+A) Discuss simulations that involve pathfinding. Identify the dimensionality (e.g., 2D vs 3D); whether the state space is discrete or (practically) continuous; if it is known up front; and if it is static or dynamic.
+
+B) Select one simulation for deeper inspection, and discuss and/or look at examples of the terrain spaces it uses. Develop a representation (e.g., pure tile / waypoints / nav mesh) and an algorithmic strategy (one of the algorithms we've discussion) that could be used in this sumulation. Be able to justify that choice!
