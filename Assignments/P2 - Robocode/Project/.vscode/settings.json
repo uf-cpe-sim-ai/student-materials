@@ -1,0 +1,11 @@
+{
+    "java.project.sourcePaths": [
+        "./"
+    ],
+    "java.project.outputPath": "./bin",
+    "java.project.referencedLibraries": [
+        "../env/libs/**/*.jar"
+    ],
+    "java.project.resourceFilters": ["./env/**/"],
+    "java.project.explorer.showNonJavaResources": true
+}

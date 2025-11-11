@@ -1,0 +1,33 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+/*		{
+			"type": "java (build)",
+			"paths": ["${workspaceFolder}/robots"
+//student", "${workspace}/benchmark", "${workspace}/sample"
+		],
+			"isFullBuild": true,
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+//			"problemMatcher": [],
+			"label": "Build Workspace",
+			"detail": "$(tools) Build all the Java projects in workspace."
+		},*/
+/*		{
+			"type": "java (buildArtifact)",
+			"targetPath": "${workspaceFolder}/${workspaceFolderBasename}.jar",
+			"elements": [
+				"${compileOutput}",
+				"${dependencies}"
+			],
+			"problemMatcher": [],
+			"label": "java (buildArtifact): Source",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}*/
+	]
+}

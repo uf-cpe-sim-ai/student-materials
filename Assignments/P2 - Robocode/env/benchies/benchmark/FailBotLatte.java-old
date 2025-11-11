@@ -1,0 +1,415 @@
+﻿package benchmark;
+
+import robocode.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
+public class FailBotLatte extends AdvancedRobot {
+    private static final Random rand = new Random();
+    private static final double PI = Math.PI;
+    
+    private double power = 0.0;
+    private Enemy currentTarget;
+    private final MoveStateMachine movingmachine;
+    private final AttackStateMachine attackmachine;
+    private final HashMap<String, Enemy> theEnemyMap = new HashMap<>();
+        
+    public FailBotLatte() {
+        currentTarget = new Enemy();
+        movingmachine = new MoveStateMachine(this);
+        attackmachine = new AttackStateMachine(this);
+    }
+    
+    // Vector2D class
+    private static class Vector2D {
+        double x;
+        double y;
+        
+        Vector2D(double x, double y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+    
+    // Enemy class
+    private static class Enemy {
+        ScannedRobotEvent myLastEvent;
+    }
+    
+    // Utility methods
+    private double getDistance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+    }
+    
+    private double normalRelativeAngle(double angle) {
+        double pi = 180;
+        
+        if (angle > -pi && angle <= pi)
+            return angle;
+        
+        double fixedAngle = angle;
+        
+        while (fixedAngle <= -pi)
+            fixedAngle += 2 * pi;
+        
+        while (fixedAngle > pi)
+            fixedAngle -= 2 * pi;
+        
+        return fixedAngle;
+    }
+    
+    private double normaliseBearing(double angle) {
+        if (angle > PI)
+            angle -= 2 * PI;
+        if (angle < -PI)
+            angle += 2 * PI;
+        return angle;
+    }
+    
+    // Move States
+    private abstract class MoveState {
+        abstract void move();
+        abstract void turn();
+    }
+    
+    private class LowMoveState extends MoveState {
+        @Override
+        void move() {
+            double a = 250.0 - (rand.nextDouble() * 500.0);
+            if (Math.abs(a) < 50.0) {
+                a += ((a < 0) ? -100.0 : 100.0);
+            }
+            setAhead(a);
+        }
+        
+        @Override
+        void turn() {
+            double a = 180.0 - (rand.nextDouble() * 360.0);
+            if (Math.abs(a) < 45.0) {
+                a += ((a < 0) ? -66.0 : 66.0);
+            }
+            setTurnRight(a);
+        }
+    }
+    
+    private double t = 1.0;
+    private class MedMoveState extends MoveState {
+        @Override
+        void move() {
+            t *= -1.0;
+            setAhead((100 + 100 * rand.nextDouble()) * t);
+        }
+        
+        @Override
+        void turn() {
+            if (currentTarget != null && currentTarget.myLastEvent != null)
+                setTurnRight(currentTarget.myLastEvent.getBearing() + 90 - t * 30);
+        }
+    }
+    
+    private class HighMoveState extends MoveState {
+        @Override
+        void move() {
+            setAhead(500);
+        }
+        
+        @Override
+        void turn() {
+            if (currentTarget != null && currentTarget.myLastEvent != null)
+                setTurnRight(currentTarget.myLastEvent.getBearing());
+        }
+    }
+    
+    // Move State Machine
+    private class MoveStateMachine {
+        private final FailBotLatte bot;
+        private MoveState currentState;
+        private final LowMoveState low;
+        private final MedMoveState med;
+        private final HighMoveState high;
+        
+        MoveStateMachine(FailBotLatte bot) {
+            this.bot = bot;
+            low = new LowMoveState();
+            med = new MedMoveState();
+            high = new HighMoveState();
+        }
+        
+        void initializeStates() {
+            currentState = high;
+        }
+        
+        void currentStateMove() {
+            currentState.move();
+        }
+        
+        void currentStateTurn() {
+            currentState.turn();
+        }
+        
+        boolean stateChange() {
+            if (bot.getEnergy() > 75) {
+                currentState = high;
+            } else if (bot.getEnergy() > 40) {
+                currentState = med;
+            } else if (bot.getEnergy() > 0) {
+                currentState = low;
+            }
+            return true;
+        }
+    }
+    
+    // Attack States
+    private abstract class AttackState {
+        abstract void attack();
+    }
+    
+    private class LowAttackState extends AttackState {
+        @Override
+        void attack() {
+            power = 2.0;
+            setFire(power);
+        }
+    }
+    
+    private class MedAttackState extends AttackState {
+        @Override
+        void attack() {
+            if (currentTarget.myLastEvent.getDistance() < 750) {
+                power = (3.0 * (1.0 - (currentTarget.myLastEvent.getDistance() / 750.0)));
+                power = power > 0.8 ? power : 0.8;
+                power = power < 3.0 ? power : 3.0;
+                setFire(power);
+            }
+        }
+    }
+    
+    private class HighAttackState extends AttackState {
+        @Override
+        void attack() {
+            if (getEnergy() > 20 || currentTarget.myLastEvent.getEnergy() == 0) {
+                power = (3.0 * (1.0 - (currentTarget.myLastEvent.getDistance() / 750.0)));
+                power = power > 0.8 ? power : 0.8;
+                power = power < 3.0 ? power : 3.0;
+                setFire(power);
+            }
+        }
+    }
+    
+    // Attack State Machine
+    private class AttackStateMachine {
+        private final FailBotLatte bot;
+        private AttackState currentState;
+        private final LowAttackState low;
+        private final MedAttackState med;
+        private final HighAttackState high;
+        
+        AttackStateMachine(FailBotLatte bot) {
+            this.bot = bot;
+            low = new LowAttackState();
+            med = new MedAttackState();
+            high = new HighAttackState();
+        }
+        
+        void initializeStates() {
+            currentState = low;
+        }
+        
+        void currentStateAttack() {
+            currentState.attack();
+        }
+        
+        boolean stateChange() {
+            if (bot.getEnergy() > 80) {
+                currentState = low;
+            } else if (bot.getEnergy() > 40) {
+                currentState = med;
+            } else if (bot.getEnergy() > 0) {
+                currentState = high;
+            }
+            return true;
+        }
+    }
+    
+    private double deltaHeading = 0.0;
+
+// Prediction
+    private Vector2D predictPosition(long futureTime, ScannedRobotEvent e, double tarX, double tarY) {
+        double deltaTime = futureTime - e.getTime();
+        double newX, newY;
+        
+        if (Math.abs(deltaHeading) > 0.001) {
+            double radius = e.getVelocity() / deltaHeading;
+            double tothead = deltaTime * deltaHeading;
+            newY = tarY + (Math.sin(e.getHeadingRadians() + tothead) * radius) - (Math.sin(e.getHeadingRadians()) * radius);
+            newX = tarX + (Math.cos(e.getHeadingRadians()) * radius) - (Math.cos(e.getHeadingRadians() + tothead) * radius);
+        } else {
+            newY = tarY + Math.cos(e.getHeadingRadians()) * e.getVelocity() * deltaTime;
+            newX = tarX + Math.sin(e.getHeadingRadians()) * e.getVelocity() * deltaTime;
+        }
+        return new Vector2D(newX, newY);
+    }
+    
+    // Aiming
+    private void aim(ScannedRobotEvent e, double firePower) {
+        double dist = e.getDistance();
+        double angle = getHeadingRadians() + e.getBearingRadians();
+        double tarX = getX() + (dist * Math.sin(angle));
+        double tarY = getY() + (dist * Math.cos(angle));
+        long time;
+        long nextTime;
+        Vector2D pos = new Vector2D(tarX, tarY);
+        
+        for (int i = 0; i < 25; i++) {
+            nextTime = Math.round((getDistance(getX(), getY(), pos.x, pos.y) / (20 - (3 * firePower))));
+            time = getTime() + nextTime;
+            pos = predictPosition(time, e, tarX, tarY);
+        }
+        
+        double gunOffset = getGunHeadingRadians() - (PI / 2.0 - Math.atan2(pos.y - getY(), pos.x - getX()));
+        setTurnGunLeftRadians(normaliseBearing(gunOffset));
+    }
+    
+    // Event Handlers
+    @Override
+    public void onHitByBullet(HitByBulletEvent e) {
+    }
+    
+    @Override
+    public void onStatus(StatusEvent e) {
+    }
+    
+    @Override
+    public void onRobotDeath(RobotDeathEvent e) {
+        theEnemyMap.remove(e.getName());
+        setTurnRadarRight(360);
+    }
+    
+    @Override
+    public void onHitWall(HitWallEvent e) {
+    }
+    
+    @Override
+    public void onBulletHitBullet(BulletHitBulletEvent e) {
+    }
+    
+    private int currentshotindex = 0;
+    private final double[] last10shots = new double[10];
+
+@Override
+    public void onBulletHit(BulletHitEvent e) {
+        last10shots[currentshotindex] = 1.0;
+        currentshotindex++;
+        if (currentshotindex == 10)
+            currentshotindex = 0;
+    }
+    
+    @Override
+    public void onHitRobot(HitRobotEvent e) {
+    }
+    
+    @Override
+    public void onBulletMissed(BulletMissedEvent e) {
+        last10shots[currentshotindex] = 0.0;
+        currentshotindex++;
+        if (currentshotindex == 10)
+            currentshotindex = 0;
+    }
+    
+    private double oldtime = 0.0;
+    private double targetsChangeInHeading = 0.0;
+
+@Override
+    public void onScannedRobot(ScannedRobotEvent e) {
+        // Enemy selection
+        Enemy enem = new Enemy();
+        enem.myLastEvent = e;
+        theEnemyMap.put(e.getName(), enem);
+        currentTarget = enem;
+        
+        // Sweeping
+        double bearing = normalRelativeAngle(getHeading() + currentTarget.myLastEvent.getBearing() - getRadarHeading());
+        double radarTurn = bearing;
+        radarTurn += (radarTurn < 0) ? -0.001 : 0.001;
+        setTurnRadarRight(radarTurn);
+        
+        // Aiming
+        deltaHeading = (currentTarget.myLastEvent.getHeadingRadians() - targetsChangeInHeading) / 
+                       Math.abs(currentTarget.myLastEvent.getTime() - oldtime);
+        deltaHeading = normaliseBearing(deltaHeading);
+        aim(currentTarget.myLastEvent, power);
+        oldtime = currentTarget.myLastEvent.getTime();
+        targetsChangeInHeading = currentTarget.myLastEvent.getHeadingRadians();
+    }
+    
+    @Override
+    public void run() {
+        // Initial Setup
+        addCustomEvent(new Condition("RadarTurnComplete") {
+            public boolean test() {
+                return getRadarTurnRemaining() == 0;
+            }
+        });
+        addCustomEvent(new Condition("GunTurnComplete") {
+            public boolean test() {
+                return getGunTurnRemaining() == 0;
+            }
+        });
+        addCustomEvent(new Condition("TurnComplete") {
+            public boolean test() {
+                return getTurnRemaining() == 0;
+            }
+        });
+        addCustomEvent(new Condition("MoveComplete") {
+            public boolean test() {
+                return getDistanceRemaining() == 0;
+            }
+        });
+        
+        setEventPriority("RobotDeathEvent", 0);
+        
+        setAdjustRadarForGunTurn(true);
+        setAdjustGunForRobotTurn(true);
+        setAdjustRadarForRobotTurn(true);
+        setMaxTurnRate(Rules.MAX_TURN_RATE);
+        setMaxVelocity(Rules.MAX_VELOCITY);
+        setTurnRadarRight(360);
+        setTurnGunRight(360);
+        
+        setAhead(10);
+        setTurnRight(10);
+        movingmachine.initializeStates();
+        attackmachine.initializeStates();
+        
+        // Main loop
+        while (true) {
+            // Process all scanned robot events
+            List<ScannedRobotEvent> events = getScannedRobotEvents();
+            for (ScannedRobotEvent event : events) {
+                Enemy enem = new Enemy();
+                enem.myLastEvent = event;
+                theEnemyMap.put(event.getName(), enem);
+            }
+            
+            attackmachine.stateChange();
+            movingmachine.stateChange();
+            
+            execute();
+        }
+    }
+    
+    @Override
+    public void onCustomEvent(CustomEvent e) {
+        String conditionName = e.getCondition().getName();
+        
+        if (conditionName.equals("RadarTurnComplete")) {
+        } else if (conditionName.equals("GunTurnComplete")) {
+            attackmachine.currentStateAttack();
+        } else if (conditionName.equals("TurnComplete")) {
+            movingmachine.currentStateTurn();
+        } else if (conditionName.equals("MoveComplete")) {
+            movingmachine.currentStateMove();
+        }
+    }
+}
